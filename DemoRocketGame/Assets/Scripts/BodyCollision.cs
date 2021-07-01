@@ -5,6 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class BodyCollision : MonoBehaviour
 {
+    [SerializeField]
+    AudioClip SuccessSound;
+
+    [SerializeField]
+    AudioClip CrashSound;
+
+    AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     private void OnCollisionEnter(UnityEngine.Collision other)
     {
         switch (other.gameObject.tag)
@@ -14,7 +27,12 @@ public class BodyCollision : MonoBehaviour
                 break;
 
             case "Finish":
-                LoadNextLevel();
+                GetComponent<Movement>().enabled = false;
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.PlayOneShot(clip: SuccessSound);
+                }
+                Invoke("LoadNextLevel", 2f);
                 break;
 
             case "Fuel":
@@ -22,7 +40,12 @@ public class BodyCollision : MonoBehaviour
                 break;
 
             default:
-                ReloadLevel();
+                GetComponent<Movement>().enabled = false;
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.PlayOneShot(clip: CrashSound);
+                }
+                Invoke("ReloadLevel", 4f);
                 break;
         }
 

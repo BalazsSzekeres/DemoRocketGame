@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField] float rocketThrust = 1000;
-    [SerializeField] float rotateSpeed = 1;
+    [SerializeField] 
+    float rocketThrust = 1000;
+
+    [SerializeField] 
+    float rotateSpeed = 1;
+
+    [SerializeField]
+    AudioClip MainEngineSound;
+
     Rigidbody rigidBody;
     AudioSource audioSource;
 
@@ -30,7 +37,7 @@ public class Movement : MonoBehaviour
         {
             if(!audioSource.isPlaying)
             {
-                audioSource.Play();
+                audioSource.PlayOneShot(clip: MainEngineSound);
             }
             Vector3 thrustForce = new Vector3 { x=0, y=rocketThrust * Time.deltaTime, z=0 };
             rigidBody.AddRelativeForce(force: thrustForce);

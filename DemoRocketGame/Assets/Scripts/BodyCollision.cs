@@ -14,7 +14,7 @@ public class BodyCollision : MonoBehaviour
                 break;
 
             case "Finish":
-                Debug.Log("Friendly collision");
+                LoadNextLevel();
                 break;
 
             case "Fuel":
@@ -31,9 +31,23 @@ public class BodyCollision : MonoBehaviour
     private void ReloadLevel()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log("Crash! Reloading Scene...");
         SceneManager.LoadScene(currentSceneIndex);
     }
 
-    
+    private void LoadNextLevel()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (currentSceneIndex != SceneManager.sceneCountInBuildSettings - 1)
+        {
+            Debug.Log($"Success! Loading Next Scene ID {currentSceneIndex + 1}...");
+            SceneManager.LoadScene(currentSceneIndex + 1);
+        }
+        else
+        {
+            Debug.Log("Finished last scene, reloading first one...");
+            SceneManager.LoadScene(0);
+        }
+    }
 
 }
